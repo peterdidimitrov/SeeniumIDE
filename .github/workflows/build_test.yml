@@ -31,5 +31,5 @@ jobs:
          
     - name: Run tests
       env:
-        CHROMEWEBDRIVER: /user/bin/google-chrome
+        CHROMEWEBDRIVER: /usr/bin/google-chrome
       run: dotnet test --verbosity normal
