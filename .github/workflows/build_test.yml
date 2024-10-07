@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -22,14 +23,24 @@ jobs:
       run: |
          sudo apt-get update
          sudo apt-get install -y google-chrome-stable
-         
+
+    - name: Install ChromeDriver
+      run: |
+        CHROME_VERSION=$(google-chrome --version | grep -oP "\d+\.\d+\.\d+")
+        sudo wget -N https://chromedriver.storage.googleapis.com/$CHROME_VERSION/chromedriver_linux64.zip
+        sudo unzip chromedriver_linux64.zip -d /usr/local/bin/
+        sudo chmod +x /usr/local/bin/chromedriver
+      shell: bash
+
     - name: Install dependencies
       run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore
-         
+
     - name: Run tests
       env:
-        CHROMEWEBDRIVER: /usr/bin/google-chrome
-      run: dotnet test --verbosity normal
+        CHROMEWEBDRIVER: /usr/local/bin/chromedriver
+        DOTNET_CLI_TELEMETRY_OPTOUT: 1
+      run: |
+        dotnet test --verbosity normal --logger "trx;LogFileName=test_results.trx" --results-directory test-results
