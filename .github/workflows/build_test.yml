@@ -13,23 +13,23 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    # Install the .NET Core workload
     - name: Set up .NET Core
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
 
     - name: Install Chrome
-      run:
+      run: |
          sudo apt-get update
          sudo apt-get install -y google-chrome-stable
+         
     - name: Install dependencies
-         dotnet restore
+      run: dotnet restore
 
     - name: Build
       run: dotnet build --no-restore
          
     - name: Run tests
       env:
-        CHROMEWEBDRIVER: /user/bin/google-chrome
+        CHROMEWEBDRIVER: /usr/bin/google-chrome
       run: dotnet test --verbosity normal
