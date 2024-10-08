@@ -32,4 +32,4 @@ jobs:
     - name: Run tests
       env:
         CHROMEWEBDRIVER: /usr/bin/google-chrome
-      run: dotnet test --verbosity normal
+      run: dotnet test
