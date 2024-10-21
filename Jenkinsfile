@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/your-repo-url.git'
+                git 'https://github.com/peterdidimitrov/SeeniumIDE'
             }
         }
         stage('Build project') {
